@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# Of course don't ignore the .gitignore
+!.gitignore
+
+# But begin allowing from subdirectories
+!*/
+
+# Allow certain file extensions
+!*.py
+!*.js
+!*.nim
+
+# Allow input file extensions
+!*.txt
+!*.in
