@@ -18,8 +18,6 @@ def getSquares(claim):
 overlaps = set()
 
 with open("day3.txt") as f:
-    # claims = [Claim(, getSquares(x.split(" "))) for x in f.read().splitlines()]
-
     claims = []
 
     for x in f.read().splitlines():
@@ -31,8 +29,19 @@ with open("day3.txt") as f:
             )
         )
 
+# Part 1
 for i in range(len(claims) - 1):
     for j in range(i+1, len(claims)):
         overlaps |= claims[i].squares & claims[j].squares
 
 print(len(overlaps))
+
+# Part 2
+for i in range(len(claims)):
+    overlaps = set()
+    for j in range(len(claims)):
+        if i != j:
+            overlaps |= claims[i].squares & claims[j].squares
+    if len(overlaps) == 0:
+        print(claims[i].id)
+        break
