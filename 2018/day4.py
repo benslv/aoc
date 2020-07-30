@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+
 times = defaultdict(list)
 
 with open("day4.txt", "r") as f:
@@ -25,13 +26,12 @@ for line in lines:
 # print(times.items())
 
 # Part 1
-# Work out the guard with the most minutes slept total.
-max_id = max(times, key=lambda x: len(x[1]))
+# Work out the guard with the most minutes slept total. Used to use max() for this but it didn't seem to work...
+max_id = sorted(times.items(), reverse=True, key=lambda x: len(x[1]))[0]
 # Work out the minute most frequently slept by this guard.
-max_minute = max(times[max_id], key=times[max_id].count)
-print(max_id, max_minute)
-answer = int(max_id) * max_minute
-print(answer)
+max_minute = max(max_id[1], key=max_id[1].count)
+answer = int(max_id[0]) * max_minute
+print(f"Part 1: {answer}")
 
 # Part 2
 guards = []
@@ -41,4 +41,4 @@ for id_, _ in times.items():
     guards.append((id_, max_min, times[id_].count(max_min)))
 
 ans = max(guards, key=lambda x: x[2])[0:2]
-print(int(ans[0])*ans[1])
+print(f"Part 2: {int(ans[0])*ans[1]}")
