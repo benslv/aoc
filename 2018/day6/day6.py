@@ -55,3 +55,18 @@ for v in grid.values():
         counts[v] += 1
 
 print(f"Part 1: {max(counts.values())}")
+
+
+"""
+Iterate through each grid square and calculate the total Manhattan distance to each named
+coordinate.
+If it's less than 10000, add it to a list of points.
+"""
+valid_points = []
+for x in range(max_x):
+    for y in range(max_y):
+        distance = sum([manhattan([x, y], [i, j]) for i, j in data])
+        if distance < 10000:
+            valid_points.append((x, y))
+
+print(f"Part 2: {len(valid_points)}")
