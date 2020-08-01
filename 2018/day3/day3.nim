@@ -20,9 +20,6 @@ proc getSquares(input: var seq[string]) =
             squares.incl([j, i])
 
     
-
-
-
 var claims: seq[seq[string]] = @[]
 
 for line in lines("day3.txt"):
