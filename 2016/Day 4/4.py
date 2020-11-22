@@ -17,3 +17,24 @@ for room in rooms:
 
 # Part 1
 print(sector_total)
+
+from string import ascii_lowercase as ALPHABET
+
+def shift(message, offset):
+    encoded = ""
+    for ch in message:
+        index = ord(ch) - 97
+        next_index = (index + offset) % 26
+        encoded += ALPHABET[next_index]
+    return encoded
+
+for room in rooms:
+    letters = "".join(room[:-1])
+    sector = room[-1].rstrip("]").split("[")[0]
+
+    print(sector, shift(letters, int(sector)))
+
+"""
+Part 2:
+Solved by running `python 4.py | grep north` to find the line containing the word "north"
+"""
