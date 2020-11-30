@@ -18,7 +18,7 @@ for ip in ips:
     if abba and no_abba:
         total += 1
 
-print(total)
+print(f"Part 1: {total}")
 
 
 def is_ABA(string):
@@ -37,7 +37,7 @@ for ip in ips:
 
     abas = set()
     babs = set()
-    
+
     for sub in supernet:
         for i in range(len(sub)-2):
             if is_ABA(aba := sub[i:i+3]):
@@ -50,9 +50,9 @@ for ip in ips:
             if bab in sub:
                 ssl = True
                 total += 1
-                print("|".join(ip), bab)
                 break
-        if ssl: break
+        if ssl:
+            break
 
 
-print(total)
+print(f"Part 2: {total}")
