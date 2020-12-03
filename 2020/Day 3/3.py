@@ -18,7 +18,6 @@ slopes = [[1, 1],
           [7, 1],
           [1, 2]]
 
-
 # Init at 1 because multiplying onto it.
 part_2 = 1
 
