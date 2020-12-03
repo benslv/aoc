@@ -1,4 +1,5 @@
 import fileinput
+import re
 from collections import defaultdict
 
 
@@ -29,38 +30,50 @@ class Bot:
         return self.bin
 
 
-instructions = sorted([line.rstrip()
-                       for line in fileinput.input()], reverse=True)
+lines = [line.rstrip() for line in fileinput.input()]
 
-print(instructions)
-
+values = list(filter(lambda x: x.startswith("value"), lines))
+instructions = list(filter(lambda x: x.startswith("bot"), lines))
 
 store = {
     "bot": defaultdict(list),
-    "input": defaultdict(list),
     "output": defaultdict(list)
 }
 
+# Populate all the bots with their values.
+for line in values:
+    parts = line.split()
 
+    val = int(parts[1])  # Value to be added.
+    bid = parts[5]  # Bot ID to be used.
+
+    store["bot"][bid].append(val)  # Add the value to the bot's storage.
+
+routes = {}
+
+# For each of the non-"value" instructions, record where each both sends
+# its chips to once it has 2 of them.
 for ins in instructions:
-    parts = ins.split()
+    give, n1, n2 = re.findall(r"\d+", ins)
+    type1, type2 = re.findall(r" (bot|output) ", ins)
 
-    if ins.startswith("value"):
-        val = parts[1]  # Value to be added.
-        bid = parts[5]  # Bot ID to be used.
+    # Store the number of each chip and the type of store it should go to.
+    routes[give] = (n1, type1), (n2, type2)
 
-        store["bot"][bid].append(val)  # Add the value to the bot's storage.
-        # Sort the storage to persist "high" and "low" functionality.
-        store["bot"][bid].sort()
-    elif ins.startswith("bot"):
-        give_id = parts[1]
+# Continue processing all the bots until they've all run out of chips.
+while store["bot"]:
+    for k, v in dict(store["bot"]).items():
+        if len(v) == 2:
+            v1, v2 = sorted(store["bot"].pop(k))
 
-        val_1 = parts[3]
-        type_1 = parts[5]
-        id_1 = parts[6]
+            if v1 == 17 and v2 == 61:
+                print(f"Part 1: {k}")
 
-        val_2 = parts[8]
-        type_2 = parts[10]
-        id_2 = parts[11]
+            (n1, type1), (n2, type2) = routes[k]
+            store[type1][n1].append(v1)
+            store[type2][n2].append(v2)
 
-        # TODO: Add ternary to type_1 and type_2 to check whether "high" or "low"
+
+a, b, c = [store["output"][str(i)][0] for i in range(3)]
+
+print(f"Part 2: {a*b*c}")
