@@ -22,13 +22,13 @@ slopes = [[1, 1],
 # Init at 1 because multiplying onto it.
 part_2 = 1
 
-for slope in slopes:
+for (dx, dy) in slopes:
     x, y = 0, 0
     trees = 0
     while y < len(lines):
         trees += lines[y][x] == "#"
-        x = (x + slope[0]) % len(lines[y])
-        y = (y + slope[1])
+        x = (x + dx) % len(lines[y])
+        y = (y + dy)
     part_2 *= trees
 
-print(part_2)
+print("Part 2:", part_2)
