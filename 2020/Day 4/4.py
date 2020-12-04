@@ -1,9 +1,11 @@
-import re
+import re, time
 
 lines = open("4.in").read().split("\n\n")
 
 part_1 = 0
 part_2 = 0
+
+start = time.time_ns()
 
 for passport in lines:
     if all([field in passport for field in ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]]):
@@ -21,11 +23,14 @@ for passport in lines:
              ) or (fd["hgt"][-2:] == "in" and int(fd["hgt"][:-2]) in range(59, 77)), # Height is in inches and between 59 and 76.
             re.match(r"^#[0-9a-z]{6}$", fd["hcl"]),                                  # Hair colour is a valid hexadecimal colour.
             fd["ecl"] in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"],          # Eye colour is present in this list of colours.
-            re.match(r"^\d{9}$", fd["pid"])                                          # Passport ID is a nine-digit number (including leading zeroes).
+            len(fd["pid"]) == 9                                                      # Passport ID is a nine-digit number.
         ]
 
         part_2 += all(valid_fields)
 
+end = time.time_ns()
 
 print(f"Part 1: {part_1}")
 print(f"Part 2: {part_2}")
+
+print(f"Took: {end-start}ns")
