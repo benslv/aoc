@@ -25,7 +25,6 @@ def search(colour):
 
 
 def search_num(colour):
-    print(bags[colour])
     # If the bag contains no other bags, return one (for the bag itself).
     if not bags[colour].keys():
         return 1
@@ -34,9 +33,8 @@ def search_num(colour):
 
 
 part_1 = sum([search(colour) for colour, _ in bags.items()])
-
-print(part_1)
+print(f"Part 1: {part_1}")
 
 # Don't want to include the outer bag in the count.
 part_2 = search_num("shiny gold") - 1
-print(part_2)
+print(f"Part 2: {part_2}")
