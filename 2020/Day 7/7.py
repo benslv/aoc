@@ -17,7 +17,7 @@ for line in lines:
 def search(colour):
     if not bags[colour]:  # If the bag contains no bags inside it.
         return False
-    elif any("shiny gold" in colour for colour in bags[colour].keys()):
+    elif "shiny gold" in bags[colour]:
         return True
     else:
         return any([search(inner) for inner in bags[colour]])
@@ -25,7 +25,7 @@ def search(colour):
 
 def search_num(colour):
     # If the bag contains no other bags, return one (for the bag itself).
-    if not bags[colour].keys():
+    if not bags[colour]:
         return 1
     else:
         return sum([int(v)*search_num(k) for k, v in bags[colour].items()]) + 1
