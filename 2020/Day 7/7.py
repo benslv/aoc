@@ -2,7 +2,6 @@ from collections import defaultdict
 import fileinput
 
 lines = [line.split() for line in fileinput.input()]
-# lines = [line.split() for line in open("7.test2").readlines()]
 
 bags = defaultdict(dict)  # Stores which colour bags each bag contains.
 
