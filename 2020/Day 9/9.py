@@ -17,7 +17,7 @@ def get_preamble(lines, n, m):
 
 
 part_1 = 0
-for i in range(N+1, len(lines)+1):
+for i in range(N, len(lines)+1):
     if lines[i] not in get_preamble(lines, N, i):
         part_1 = lines[i]
         print(f"Part 1: {part_1}")
