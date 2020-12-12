@@ -53,7 +53,6 @@ def part_2():
 
     for line in lines:
         direction, value = line[0], int(line[1:])
-        print(direction, value)
 
         if direction in "NSEW":
             wx += w_dX[direction]*value
