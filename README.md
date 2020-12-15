@@ -21,7 +21,7 @@ My goal each year is usually just to beat the number of days I managed in the pr
 | Day 12 |      |      |      |      | ⭐⭐   | ⭐⭐   |
 | Day 13 |      |      |      |      | ⭐⭐   | ⭐⭐   |
 | Day 14 |      |      |      |      | ⭐⭐   | ⭐⭐   |
-| Day 15 |      |      |      |      |      |      |
+| Day 15 |      |      |      |      |      | ⭐⭐   |
 | Day 16 |      |      |      |      |      |      |
 | Day 17 |      |      |      |      |      |      |
 | Day 18 |      |      |      |      |      |      |
