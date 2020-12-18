@@ -13,7 +13,7 @@ class Int():
     def __add__(self, other):
         return Int(self.val+other.val)
 
-    # Part 1: Multiplcation is assigned to the subtraction operation, so it has the same LTR evaluation as addition.
+    # Part 1: Multiplication is assigned to the subtraction operation, so it has the same LTR evaluation as addition.
     def __sub__(self, other):
         return Int(self.val*other.val)
 
