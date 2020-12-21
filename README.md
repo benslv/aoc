@@ -7,7 +7,7 @@ My goal each year is usually just to beat the number of days I managed in the pr
 
 |        | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 |
 | ------ | ---- | ---- | ---- | ---- | ---- | ---- |
-| Day 1  | ⭐⭐   | ⭐⭐   |      | ⭐⭐   | ⭐⭐   | ⭐⭐   |
+| Day 1  | ⭐⭐   | ⭐⭐   | ⭐⭐   | ⭐⭐   | ⭐⭐   | ⭐⭐   |
 | Day 2  | ⭐⭐   | ⭐⭐   |      | ⭐⭐   | ⭐⭐   | ⭐⭐   |
 | Day 3  | ⭐⭐   | ⭐⭐   |      | ⭐⭐   | ⭐⭐   | ⭐⭐   |
 | Day 4  | ⭐⭐   | ⭐⭐   |      | ⭐⭐   | ⭐⭐   | ⭐⭐   |
@@ -22,12 +22,12 @@ My goal each year is usually just to beat the number of days I managed in the pr
 | Day 13 |      |      |      |      | ⭐⭐   | ⭐⭐   |
 | Day 14 |      |      |      |      | ⭐⭐   | ⭐⭐   |
 | Day 15 |      |      |      |      |      | ⭐⭐   |
-| Day 16 |      |      |      |      |      |      |
+| Day 16 |      |      |      |      |      | ⭐    |
 | Day 17 |      |      |      |      |      |      |
-| Day 18 |      |      |      |      |      |      |
+| Day 18 |      |      |      |      |      | ⭐⭐   |
 | Day 19 |      |      |      |      |      |      |
 | Day 20 |      |      |      |      |      |      |
-| Day 21 |      |      |      |      |      |      |
+| Day 21 |      |      |      |      |      | ⭐⭐   |
 | Day 22 |      |      |      |      |      |      |
 | Day 23 |      |      |      |      |      |      |
 | Day 24 |      |      |      |      |      |      |
