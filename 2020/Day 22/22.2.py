@@ -13,7 +13,7 @@ p2 = [int(x) for x in p2d.split("\n")[1:]]
 
 
 def rec_combat(p1: List[int], p2: List[int]) -> Tuple[int, int]:
-    seen: Set[Tuple[int]] = set()
+    seen: Set[str] = set()
 
     while p1 and p2:
         key = str(p1) + "|" + str(p2)
