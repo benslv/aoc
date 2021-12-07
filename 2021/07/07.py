@@ -9,8 +9,7 @@ def dist(d):
 
 part1 = min(sum(abs(val-x) for x in inp) for val in inp)
 
-part2 = min(sum(dist(abs(val-x)) for x in inp)
-            for val in range(min(inp), max(inp)+1))
+part2 = min(sum(dist(abs(val-x)) for x in inp) for val in range(min(inp), max(inp)+1))
 
 print("Part 1:", int(part1))
 
