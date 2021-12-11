@@ -11,8 +11,6 @@ import numpy as np
 octopi = np.array(list(list(map(int, line.strip()))
                        for line in sys.stdin.readlines()))
 
-STEPS = 1
-
 
 def process_flashes(y, x, octopi, will_flash):
     adjacent = [(y-1, x-1), (y-1, x), (y-1, x+1), (y, x-1),
@@ -26,31 +24,47 @@ def process_flashes(y, x, octopi, will_flash):
             # If an incremented octopus now has enough energy to flash
             # add it to the set and process its neighbours
             if (octopi[j][i] > 9) and (j, i) not in will_flash:
-                # will_flash.add((y, x))
-                return process_flashes(j, i, octopi, will_flash | {(j, i)})
+                will_flash |= process_flashes(
+                    j, i, octopi, will_flash | {(j, i)})
 
     return will_flash
 
 
-while STEPS > 0:
+total_flashes = 0
+STEPS = 0
+
+part_1 = 0
+part_2 = 0
+
+while True:
     # Increment all octopus energies by 1.
     octopi += 1
-    # print(octopi)
 
     # Keep track of the coordinates will flash at the end of the step.
     will_flash = set()
 
     # Check for >9 energy levels
     for (y, x), oct in np.ndenumerate(octopi):
-        print(y, x)
-        if oct > 9:
+        if oct > 9 and (y, x) not in will_flash:
             # Process adjacent cells to a flashing cell
             will_flash |= process_flashes(y, x, octopi, will_flash | {(y, x)})
+
+    total_flashes += len(will_flash)
 
     # Set all flashing cells to 0
     for (y, x) in will_flash:
         octopi[y][x] = 0
 
-    print(octopi)
+    STEPS += 1
 
-    STEPS -= 1
+    if np.all(octopi == 0):
+        part_2 = STEPS
+
+    if STEPS == 100:
+        part_1 = total_flashes
+
+    if part_1 and part_2:
+        break
+
+print("Part 1:", part_1)
+print("Part 2:", part_2)
