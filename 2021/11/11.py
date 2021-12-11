@@ -36,7 +36,7 @@ STEPS = 0
 part_1 = 0
 part_2 = 0
 
-while True:
+while not (part_1 and part_2):
     # Increment all octopus energies by 1.
     octopi += 1
 
@@ -62,9 +62,6 @@ while True:
 
     if STEPS == 100:
         part_1 = total_flashes
-
-    if part_1 and part_2:
-        break
 
 print("Part 1:", part_1)
 print("Part 2:", part_2)
