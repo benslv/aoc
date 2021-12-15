@@ -1,8 +1,6 @@
 import sys
 
 inp = [[int(x) for x in line] for line in sys.stdin.read().splitlines()]
-# inp = [[int(x) for x in line] for line in open(
-#     "/home/ben/git/aoc/2021/15/15.3.test").read().splitlines()]
 
 
 def solve(start, target, inp, part=1):
