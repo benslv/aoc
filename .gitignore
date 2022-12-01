@@ -11,6 +11,7 @@
 !*.py
 !*.js
 !*.nim
+!*.ts
 
 # Allow input file extensions
 !*.txt
