@@ -1,29 +1,31 @@
 import sys
+from itertools import accumulate
+from collections import defaultdict
 
+lines = sys.stdin.read().splitlines()
 
-# lines = sys.stdin.read().splitlines()
-lines = open("/home/ben/Development/aoc/2022/07/07.test",
-             "r").read().splitlines()
+directories = defaultdict(int)         
 
-directory = [{}]
-index = 0
+for line in lines:
+    match line.split():
+        case ["$", "cd", "/"]: 
+            path = [""]
+        case ["$", "cd", ".."]: 
+            path.pop()
+        case ["$", "cd", dir]:
+            path.append(f"{dir}/")
+        case ["$", "ls"]: 
+            pass
+        case ["dir", _]: 
+            pass
+        case [size, _]: 
+            for p in accumulate(path):
+                directories[p] += int(size)
 
-while index < len(lines):
-    print(lines[index])
+print(directories)
 
-    line = lines[index].split()
+part_1 = sum(s for s in directories.values() if s <= 100000)
+print(f"{part_1=}")
 
-    match line[0]:
-        case "$":
-            command = line[1:]
-            print(command)
-
-            match command:
-                case ["cd", ".."]:
-                    pass
-                case ["cd", subdir]:
-                    if subdir not in directory[-1]:
-                        directory[-1][subdir] = {}
-                        print(directory)
-
-    index += 1
+part_2 = min([s for s in directories.values() if directories[""] - s <= 40000000])
+print(f"{part_2=}")
