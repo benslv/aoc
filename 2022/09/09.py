@@ -1,5 +1,3 @@
-# Assumption:
-# T moves to previous position of H if H moves and is no longer touching T
 import sys
 
 lines = sys.stdin.read().splitlines()
