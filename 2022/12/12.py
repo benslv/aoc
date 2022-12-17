@@ -1,9 +1,7 @@
 from collections import deque
 import sys
 
-# inp = [list(line) for line in sys.stdin.read().splitlines()]
-inp = [list(line) for line in open(
-    "/home/ben/git/aoc/2022/12/12.test", "r").read().splitlines()]
+inp = [list(line) for line in sys.stdin.read().splitlines()]
 
 
 def process_input(inp):
@@ -15,20 +13,17 @@ def process_input(inp):
             match inp[y][x]:
                 case "S":
                     S = (y, x)
+                    inp[y][x] = "a"
                 case "E":
                     E = (y, x)
+                    inp[y][x] = "z"
 
     return S, E
 
 
 def height(y: int, x: int) -> int:
-    match inp[y][x]:
-        case "S":
-            return 0
-        case "E":
-            return 26
-        case letter:
-            return ord(letter)-96
+    letter = inp[y][x]
+    return ord(letter)-96
 
 
 def get_valid_moves(point: tuple[int, int]) -> set[tuple[int, int]]:
@@ -48,9 +43,6 @@ def get_valid_moves(point: tuple[int, int]) -> set[tuple[int, int]]:
 
 
 S, E = process_input(inp)
-print(S, E)
-
-paths = []
 
 
 def BFS(start: tuple[int, int]):
@@ -70,6 +62,13 @@ def BFS(start: tuple[int, int]):
                 seen.add(move)
 
 
-part_1 = BFS(S)
-print(part_1)
-print(len(part_1))
+part_1 = len(BFS(S)) - 1
+print(f"{part_1=}")
+
+starts = [(y, x) for y in range(len(inp))
+          for x in range(len(inp[y])) if inp[y][x] == "a"]
+
+paths = list(filter(lambda x: x is not None, [BFS(s) for s in starts]))
+
+part_2 = len(min(paths, key=len))-1
+print(f"{part_2=}")
