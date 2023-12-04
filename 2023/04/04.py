@@ -10,7 +10,7 @@ NUMBER_REGEX = re.compile(
     r"Card\s+\d+:\s+((?:\d+\s+)+\d+)\s+\|\s+((?:\d+\s+)+\d+)")
 
 for line in inp:
-    [[winners, numbers]] = NUMBER_REGEX.findall(line)
+    [winners, numbers] = NUMBER_REGEX.findall(line)[0]
 
     winners = {int(x) for x in winners.split()}
     numbers = {int(x) for x in numbers.split()}
