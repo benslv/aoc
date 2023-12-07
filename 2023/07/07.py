@@ -54,7 +54,7 @@ part_1 = sum([rank*bid for [rank, [_, bid]] in enumerate(sorted([[hand, int(bid)
 
 print(f"{part_1=}")
 
-part_2 = sum([rank*bid for [rank, [hand, bid]] in enumerate(sorted([[hand, int(bid)] for [hand, bid] in inp],
-                                                                   key=cmp_to_key(lambda x, y: cmp(x[0], y[0], p2=True))), start=1)])
+part_2 = sum([rank*bid for [rank, [_, bid]] in enumerate(sorted([[hand, int(bid)] for [hand, bid] in inp],
+                                                                key=cmp_to_key(lambda x, y: cmp(x[0], y[0], p2=True))), start=1)])
 
 print(f"{part_2=}")
