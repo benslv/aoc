@@ -7,38 +7,30 @@ inp = [line.split() for line in sys.stdin.read().splitlines()]
 
 
 def score(hand: str, j_val: str = "0"):
-    hand = hand.replace("0", j_val)
-    c = sorted(Counter(hand).values(), reverse=True)
-
-    # print(hand, c)
-    match c:
+    match sorted(Counter(hand.replace("0", j_val)).values(), reverse=True):
         case [5]:
-            return (10, hand)
+            return 10
         case [4, 1]:
-            return (9, hand)
+            return 9
         case [3, 2]:
-            return (8, hand)
+            return 8
         case [3, 1, 1]:
-            return (7, hand)
+            return 7
         case [2, 2, 1]:
-            return (6, hand)
+            return 6
         case [2, 1, 1, 1]:
-            return (5, hand)
+            return 5
         case [1, 1, 1, 1, 1]:
-            return (4, hand)
+            return 4
 
 
 def strength(hand: str, p2=False):
-
     if p2:
         hand = hand.translate(str.maketrans("TJQKA", "A0CDE"))
-        scores = [score(hand, j_val) for j_val in "ABCDE98765432"]
-        # print(scores)
-        # print("best:", max(scores))
-        return max(score(hand, j_val) for j_val in "ABCDE98765432")
+        return max((score(hand, j_val), hand) for j_val in "ABCDE98765432")
     else:
         hand = hand.translate(str.maketrans("TJQKA", "ABCDE"))
-        return score(hand)
+        return (score(hand), hand)
 
 
 def cmp(a: str, b: str, p2=False):
@@ -66,6 +58,3 @@ part_2 = sum([rank*bid for [rank, [hand, bid]] in enumerate(sorted([[hand, int(b
                                                                    key=cmp_to_key(lambda x, y: cmp(x[0], y[0], p2=True))), start=1)])
 
 print(f"{part_2=}")
-
-# print([[rank, [hand, bid]] for [rank, [hand, bid]] in enumerate(sorted([[hand, int(bid)] for [hand, bid] in inp],
-#                                                                        key=cmp_to_key(lambda x, y: cmp(x[0], y[0], p2=True))), start=1)])
