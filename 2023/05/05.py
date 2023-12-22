@@ -24,4 +24,16 @@ def solve(seeds, mappings):
 
 
 part_1 = min(solve(seeds, mappings))
+
 print(f"{part_1=}")
+
+seed_ranges = ([seeds[i], seeds[i] + seeds[i+1]]
+               for i in range(0, len(seeds), 2))
+
+locations = (solve([x for x in range(src, dest)], mappings)
+             for src, dest in seed_ranges)
+
+# This will take about 22 minutes :)
+part_2 = min(min(location) for location in locations)
+
+print(f"{part_2=}")
