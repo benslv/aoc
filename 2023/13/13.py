@@ -1,7 +1,6 @@
 import sys
 
-patterns = [p.split() for p in sys.stdin.read().replace(
-    ".", "0").replace("#", "1").split("\n\n")]
+patterns = [p.split() for p in sys.stdin.read().split("\n\n")]
 
 
 def transpose(pattern):
@@ -35,11 +34,8 @@ num_cols = 0
 num_rows = 0
 
 for pattern in patterns:
-    rows = [int(row, 2) for row in pattern]
-    cols = [int("".join(col), 2) for col in transpose(pattern)]
-
-    num_rows += find_reflection(rows)
-    num_cols += find_reflection(cols)
+    num_rows += find_reflection(pattern)
+    num_cols += find_reflection(transpose(pattern))
 
 part_1 = num_cols + 100*num_rows
 
