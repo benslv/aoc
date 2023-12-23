@@ -13,8 +13,4 @@
 !*.nim
 !*.ts
 
-# Allow input file extensions
-!*.txt
-!*.in
-
 node_modules/
