@@ -98,23 +98,27 @@ for j in junctions:
         distance += 1
         queue = next_queue
 
-part_2 = 0
+
+def part2(path):
+    paths = []
+
+    def DFS(path, distance):
+        current_point = path[-1]
+
+        if current_point == finish:
+            paths.append((distance, path))
+            return
+
+        for d, point in junc_distances[current_point]:
+            if point not in path:
+                DFS([*path, point], distance + d)
+
+    DFS(path, 0)
+
+    return paths
 
 
-def DFS_p2(path, distance):
-    global part_2
-
-    current_point = path[-1]
-
-    if current_point == finish:
-        if distance > part_2:
-            part_2 = distance
-
-    for d, point in junc_distances[current_point]:
-        if point not in path:
-            DFS_p2([*path, point], distance + d)
+part_2 = max((path for path in part2([start])), key=lambda x: x[0])[0]
 
 
-DFS_p2([start], 0)
-
-print(part_2)
+print(f"{part_2=}")
