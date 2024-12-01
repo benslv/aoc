@@ -12,5 +12,8 @@
 !*.js
 !*.nim
 !*.ts
+!*.json
+!*.yaml
+!*.sh
 
 node_modules/
