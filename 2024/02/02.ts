@@ -14,8 +14,12 @@ function checkLine(line: number[]): boolean {
 	return (increasing || decreasing) && noExceedMaxDiff;
 }
 
+const p1s = performance.now();
 const part1 = lines.map(checkLine).filter(Boolean).length;
+const p1e = performance.now();
+
 console.log("Part 1:", part1);
+console.log(`Completed in ${(p1e - p1s).toFixed(3)}ms`);
 
 function doPartTwo(lines: number[][]): number {
 	let numSafe = 0;
@@ -44,5 +48,9 @@ function doPartTwo(lines: number[][]): number {
 
 	return numSafe;
 }
+const p2s = performance.now();
+const part2 = doPartTwo(lines);
+const p2e = performance.now();
 
-console.log("Part 2:", doPartTwo(lines));
+console.log("Part 2:", part2);
+console.log(`Completed in ${(p2e - p2s).toFixed(3)}ms`);
