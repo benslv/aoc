@@ -22,7 +22,7 @@ const sortedCols = input
   .map((arr) => arr.sort((a, b) => a - b)) as [number[], number[]];
 
 const part1 = sortedCols[0].reduce(
-  (acc, val, i) => acc + Math.abs(val - sortedCols[1][i]!),
+  (acc, val, i) => acc + Math.abs(val - sortedCols[1][i]),
   0
 );
 
