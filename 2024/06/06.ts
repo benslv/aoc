@@ -26,7 +26,6 @@ for (let y = 0; y < input.length; y++) {
 }
 
 const visited = new Set([`${guardY},${guardX}`]);
-const fullPath = [`${guardY},${guardX},${guardDy},${guardDx}`];
 
 while (input[guardY + guardDy]?.[guardX + guardDx] !== undefined) {
 	while (obstaclePositions.has(`${guardY + guardDy},${guardX + guardDx}`)) {
@@ -77,32 +76,3 @@ for (const pos of potentialObstaclePositions) {
 
 	obstaclePositions.delete(pos);
 }
-
-// for (let i = 0; i < fullPath.length; i++) {
-// 	const path = fullPath.slice(0, i);
-// 	// Initialise guard at start.
-// 	const start = fullPath[i];
-// 	[guardY, guardX, guardDy, guardDx] = start.split(",").map(Number);
-// 	const isAlreadyBlocked =
-// 		input[guardY + guardDy]?.[guardX + guardDx] === "#";
-// 	// console.log(`Blocking ${guardY + guardDy}, ${guardX + guardDx}`);
-// 	// Ignore any start positions which are already blocked.
-// 	if (isAlreadyBlocked) continue;
-// 	// Pretend position IS blocked. Turn guard right.
-// 	[guardDy, guardDx] = [guardDx, -guardDy];
-// 	path.push(`${guardY},${guardX},${guardDy},${guardDx}`);
-// 	while (input[guardY + guardDy]?.[guardX + guardDx] !== undefined) {
-// 		while (input[guardY + guardDy]?.[guardX + guardDx] === "#") {
-// 			[guardDy, guardDx] = [guardDx, -guardDy];
-// 		}
-// 		guardY += guardDy;
-// 		guardX += guardDx;
-// 		if (path.includes(`${guardY},${guardX},${guardDy},${guardDx}`)) {
-// 			part2 += 1;
-// 			break;
-// 		}
-// 		path.push(`${guardY},${guardX},${guardDy},${guardDx}`);
-// 	}
-// }
-
-console.log(part2);
