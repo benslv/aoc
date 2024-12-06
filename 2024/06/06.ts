@@ -1,4 +1,4 @@
-import { readInput } from "../utils";
+import { readInput, time } from "../utils";
 
 const input = await readInput();
 
@@ -27,33 +27,7 @@ for (let y = 0; y < input.length; y++) {
 
 const visited = new Set([`${guardY},${guardX}`]);
 
-while (input[guardY + guardDy]?.[guardX + guardDx] !== undefined) {
-	while (obstaclePositions.has(`${guardY + guardDy},${guardX + guardDx}`)) {
-		[guardDy, guardDx] = [guardDx, -guardDy];
-	}
-
-	guardY += guardDy;
-	guardX += guardDx;
-
-	visited.add(`${guardY},${guardX}`);
-}
-
-console.log("Part 1:", visited.size);
-
-let part2 = 0;
-
-const potentialObstaclePositions = new Set([...visited]);
-potentialObstaclePositions.delete(guardStartPos);
-
-for (const pos of potentialObstaclePositions) {
-	[guardY, guardX] = guardStartPos.split(",").map(Number);
-	guardDy = -1;
-	guardDx = 0;
-
-	obstaclePositions.add(pos);
-
-	const path = new Set();
-
+time(() => {
 	while (input[guardY + guardDy]?.[guardX + guardDx] !== undefined) {
 		while (
 			obstaclePositions.has(`${guardY + guardDy},${guardX + guardDx}`)
@@ -64,15 +38,49 @@ for (const pos of potentialObstaclePositions) {
 		guardY += guardDy;
 		guardX += guardDx;
 
-		const guardState = `${guardY},${guardX},${guardDy},${guardDx}`;
-
-		if (path.has(guardState)) {
-			part2 += 1;
-			break;
-		}
-
-		path.add(guardState);
+		visited.add(`${guardY},${guardX}`);
 	}
 
-	obstaclePositions.delete(pos);
-}
+	console.log("Part 1:", visited.size);
+});
+
+time(() => {
+	let part2 = 0;
+
+	const potentialObstaclePositions = new Set([...visited]);
+	potentialObstaclePositions.delete(guardStartPos);
+
+	for (const pos of potentialObstaclePositions) {
+		[guardY, guardX] = guardStartPos.split(",").map(Number);
+		guardDy = -1;
+		guardDx = 0;
+
+		obstaclePositions.add(pos);
+
+		const path = new Set();
+
+		while (input[guardY + guardDy]?.[guardX + guardDx] !== undefined) {
+			while (
+				obstaclePositions.has(`${guardY + guardDy},${guardX + guardDx}`)
+			) {
+				[guardDy, guardDx] = [guardDx, -guardDy];
+			}
+
+			guardY += guardDy;
+			guardX += guardDx;
+
+			const guardState = `${guardY},${guardX},${guardDy},${guardDx}`;
+
+			if (path.has(guardState)) {
+				part2 += 1;
+				break;
+			}
+
+			path.add(guardState);
+		}
+
+		obstaclePositions.delete(pos);
+	}
+
+	console.log("Part 2:", part2);
+});
