@@ -1,18 +1,24 @@
 import { readInput, time } from "../utils";
 
-function getPossibleCalculations(
+function canGenerateTarget(
 	numbers: number[],
+	target: number,
 	enableConcat = false
-): number[] {
+): boolean {
 	const first = numbers.shift()!;
 
-	return Array.from(generateCalculations(first, numbers));
+	for (const num of generateCalculations(first, numbers)) {
+		// arr.push(num);
+		if (num === target) return true;
+	}
+
+	return false;
 
 	function* generateCalculations(
 		value: number,
 		arr: number[]
 	): Generator<number> {
-		if (arr.length === 0) {
+		if (arr.length === 0 || value > target) {
 			yield value;
 		} else {
 			yield* generateCalculations(value + arr[0], arr.slice(1));
@@ -27,6 +33,7 @@ function getPossibleCalculations(
 		}
 	}
 }
+
 const input = await readInput();
 
 function partOne(): void {
@@ -35,7 +42,7 @@ function partOne(): void {
 	for (const line of input) {
 		const [target, ...numbers] = line.match(/\d+/g)?.map(Number) ?? [];
 
-		if (getPossibleCalculations(numbers).includes(target)) {
+		if (canGenerateTarget(numbers, target)) {
 			part1 += target;
 		}
 	}
@@ -49,12 +56,12 @@ function partTwo(): void {
 	for (const line of input) {
 		const [target, ...numbers] = line.match(/\d+/g)?.map(Number) ?? [];
 
-		if (getPossibleCalculations(numbers, true).includes(target)) {
+		if (canGenerateTarget(numbers, target, true)) {
 			part2 += target;
 		}
 	}
 
-	console.log("Part 1:", part2);
+	console.log("Part 2:", part2);
 }
 
 time(partOne);
