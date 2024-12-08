@@ -35,14 +35,14 @@ for (const antenna in antennaMap) {
 				}
 			}
 
-			for (const pos of getAllPointsOnLine(posA, posB)) {
-				partTwoAntinodes.add(pos);
+			for (const [y, x] of getAllPointsOnLine(posA, posB)) {
+				if (y >= 0 && y < height && x >= 0 && x < width) {
+					partTwoAntinodes.add(`${y},${x}`);
+				}
 			}
 		}
 	}
 }
-
-// console.log(partTwoAntinodes);
 
 console.log("Part 1:", partOneAntinodes.size);
 console.log("Part 2:", partTwoAntinodes.size);
@@ -65,27 +65,23 @@ function* getAllPointsOnLine(
 	const dy = bY - aY;
 	const dx = bX - aX;
 
-	switch (dy / dx) {
-		case Infinity:
-		case -Infinity:
-			for (let y = 0; y < height; y++) {
-				yield `${y},${aX}`;
-			}
-			break;
-		case 0:
-			for (let x = 0; x < height; x++) {
-				yield `${aY},${x}`;
-			}
-			break;
-		default:
-			const c = aY - (dy / dx) * aX;
+	let y = aY;
+	let x = aX;
 
-			for (let x = 0; x < width; x++) {
-				const y = (dy / dx) * x + c;
+	while (y < height && x < width) {
+		yield [y, x];
 
-				if (Number.isInteger(y) && y >= 0 && y < height) {
-					yield `${y},${x}`;
-				}
-			}
+		y += dy;
+		x += dx;
+	}
+
+	y = aY;
+	x = aX;
+
+	while (y >= 0 && x >= 0) {
+		yield [y, x];
+
+		y -= dy;
+		x -= dx;
 	}
 }
