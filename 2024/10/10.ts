@@ -1,3 +1,5 @@
+import { bench, run } from "mitata";
+
 import { readInput } from "../utils";
 
 const input = await readInput();
@@ -12,7 +14,10 @@ function getAdjacentCoords(y: number, x: number): [number, number][] {
 	for (const dy of [-1, 0, 1]) {
 		for (const dx of [-1, 0, 1]) {
 			const newHeight = grid[y + dy]?.[x + dx];
-			if (Math.abs(dy) + Math.abs(dx) === 1 && newHeight === currHeight + 1) {
+			if (
+				Math.abs(dy) + Math.abs(dx) === 1 &&
+				newHeight === currHeight + 1
+			) {
 				coords.push([y + dy, x + dx]);
 			}
 		}
@@ -66,3 +71,7 @@ console.log(
 );
 
 console.log("Part 2:", part2.length);
+
+bench("Traverse Grid", () => DFS(grid));
+
+await run();

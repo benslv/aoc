@@ -1,4 +1,5 @@
-import { readInput, time } from "../utils";
+import { bench, run } from "mitata";
+import { readInput } from "../utils";
 
 const input = await readInput().then((data) => data[0].split(" ").map(Number));
 
@@ -15,7 +16,9 @@ function count(stone: number, blinks: number): number {
 		const left = parseInt(numString.substring(0, middle));
 		const right = parseInt(numString.substring(middle));
 
-		return memoisedCount(left, blinks - 1) + memoisedCount(right, blinks - 1);
+		return (
+			memoisedCount(left, blinks - 1) + memoisedCount(right, blinks - 1)
+		);
 	}
 
 	return memoisedCount(stone * 2024, blinks - 1);
@@ -40,16 +43,15 @@ function memoise<T extends unknown[], A>(fn: (...args: T) => A) {
 
 const memoisedCount = memoise(count);
 
-time(() => {
-	console.log(
-		"Part 1:",
-		input.map((s) => memoisedCount(s, 25)).reduce((acc, val) => acc + val)
-	);
-});
+const partOne = () =>
+	input.map((s) => memoisedCount(s, 25)).reduce((acc, val) => acc + val);
+const partTwo = () =>
+	input.map((s) => memoisedCount(s, 75)).reduce((acc, val) => acc + val);
 
-time(() => {
-	console.log(
-		"Part 2:",
-		input.map((s) => memoisedCount(s, 75)).reduce((acc, val) => acc + val)
-	);
-});
+console.log("Part 1:", partOne());
+console.log("Part 2:", partTwo());
+
+bench("Part 1", partOne);
+bench("Part 2", partTwo);
+
+await run();

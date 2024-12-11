@@ -1,9 +1,10 @@
-import { readInput, time } from "../utils";
+import { bench, run } from "mitata";
+import { readInput } from "../utils";
 
 const input = await readInput();
 
 // Part 1
-time(() => {
+const part1 = () => {
 	let index = 0;
 	const data = input[0].split("").flatMap((val, i) => {
 		if (i % 2 === 1) {
@@ -32,15 +33,13 @@ time(() => {
 		i++;
 		j--;
 	}
-
-	console.log(
-		"Part 1:",
-		data.filter((i) => i !== undefined).reduce((acc, val, i) => acc + val * i)
-	);
-});
+	return data
+		.filter((i) => i !== undefined)
+		.reduce((acc, val, i) => acc + val * i);
+};
 
 // Part 2
-time(() => {
+const part2 = () => {
 	let index = 0;
 	const data = input[0].split("").map((val, i) => {
 		if (i % 2 === 1) {
@@ -95,14 +94,19 @@ time(() => {
 		j--;
 	}
 
-	console.log(
-		"Part 2:",
-		data
-			.flatMap((block) => Array.from({ length: block[1] }, () => block[0]))
-			.reduce((acc, val, i) => {
-				if (val === -1) return acc;
+	return data
+		.flatMap((block) => Array.from({ length: block[1] }, () => block[0]))
+		.reduce((acc, val, i) => {
+			if (val === -1) return acc;
 
-				return acc + val * i;
-			}, 0)
-	);
-});
+			return acc + val * i;
+		}, 0);
+};
+
+console.log("Part 1:", part1());
+console.log("Part 2:", part2());
+
+bench("Part 1", part1);
+bench("Part 2", part2);
+
+await run();
