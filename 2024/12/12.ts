@@ -36,17 +36,28 @@ function getRegions(grid: string[]): Array<Set<string>> {
 				return undefined;
 			}
 
-			for (const dy of [-1, 0, 1]) {
-				for (const dx of [-1, 0, 1]) {
-					const nextY = y + dy;
-					const nextX = x + dx;
+			for (const [dy, dx] of [
+				[0, 1],
+				[0, -1],
+				[1, 0],
+				[-1, 0]
+			]) {
+				const nextY = y + dy;
+				const nextX = x + dx;
 
-					if (points.has(`${nextY},${nextX}`)) continue;
+				if (
+					nextY < 0 ||
+					nextY >= grid.length ||
+					nextX < 0 ||
+					nextX >= grid[0].length
+				)
+					continue;
 
-					if (dy !== dx && input[nextY]?.[nextX] === initialValue) {
-						queue.push([nextY, nextX]);
-						points.add(`${nextY},${nextX}`);
-					}
+				if (points.has(`${nextY},${nextX}`)) continue;
+
+				if (input[nextY]?.[nextX] === initialValue) {
+					queue.push([nextY, nextX]);
+					points.add(`${nextY},${nextX}`);
 				}
 			}
 		}
@@ -54,8 +65,6 @@ function getRegions(grid: string[]): Array<Set<string>> {
 		return points;
 	}
 }
-
-const regions = getRegions(input);
 
 function getExposedSides(y: number, x: number, grid: string[]): number {
 	const value = grid[y]?.[x];
