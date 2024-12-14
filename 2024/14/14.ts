@@ -1,4 +1,5 @@
 import { assert } from "console";
+import { appendFileSync } from "fs";
 import { bench, run } from "mitata";
 import { readInput } from "../utils";
 
@@ -70,8 +71,59 @@ function partOne() {
 	return Object.values(part1quadrants).reduce((acc, val) => acc * val, 1);
 }
 
+function partTwo(visualise = false) {
+	const scores = [];
+
+	for (let i = 0; i < 10000; i++) {
+		const quadrants = robots
+			.map((r) => calculateEndPosition(r, i))
+			.map(getQuadrant)
+			.reduce(
+				(acc, quadrant) => {
+					if (quadrant === -1) return acc;
+
+					acc[quadrant] += 1;
+
+					return acc;
+				},
+				{ 1: 0, 2: 0, 3: 0, 4: 0 }
+			);
+
+		const safetyScore = Object.values(quadrants).reduce(
+			(acc, val) => acc * val,
+			1
+		);
+
+		scores.push([i, safetyScore]);
+
+		if (visualise) {
+			visualiseInFile(i);
+		}
+	}
+
+	scores.sort((a, b) => a[1] - b[1]);
+
+	return `Highest clustering at ${scores[0][0]} seconds. Image likely to be found at this position. Run with visualise=true to generate visualisations file.`;
+}
+
+function visualiseInFile(steps: number) {
+	const grid = Array.from({ length: HEIGHT }, () =>
+		Array.from({ length: WIDTH }, () => ".")
+	);
+
+	for (const [x, y] of robots.map((r) => calculateEndPosition(r, steps))) {
+		grid[y][x] = "#";
+	}
+
+	const gridString = grid.map((line) => line.join("")).join("\n");
+
+	appendFileSync("christmas.txt", `${steps}\n${gridString}\n\n`);
+}
+
 console.log("Part 1:", partOne());
+console.log("Part 2:", partTwo(true));
 
 bench("Part 1", partOne);
+bench("Part 2", partTwo);
 
 await run();
