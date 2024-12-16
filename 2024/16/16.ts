@@ -1,91 +1,89 @@
-import assert from "node:assert";
+import assert from "assert";
 import { readInput } from "../utils";
+import { Heap } from "heap-js";
+
+type State = {
+    y: number;
+    x: number;
+    direction: number;
+    distance: number;
+    path: string[];
+};
+
+function toString(state: State): string {
+    return `${state.y},${state.x},${state.direction}`;
+}
 
 const input = await readInput();
 
-const HEIGHT = input.length;
 const WIDTH = input[0].length;
 
 const startIndex = input.join("").match(/S/)?.index;
-const endIndex = input.join("").match(/E/)?.index;
-
 assert(startIndex, "Couldn't find start position.");
+
+const endIndex = input.join("").match(/E/)?.index;
 assert(endIndex, "Couldn't find end position.");
 
-function getPositionFromIndex(idx: number, height: number): [number, number] {
-	const y = Math.floor(idx / height);
-	const x = idx % WIDTH;
+function getPositionFromIndex(idx: number): [number, number] {
+    const y = Math.floor(idx / WIDTH);
+    const x = idx % WIDTH;
 
-	return [y, x];
+    return [y, x];
 }
 
-const start = getPositionFromIndex(startIndex, HEIGHT);
+const [sy, sx] = getPositionFromIndex(startIndex);
 
-function runDFS([startY, startX]: [number, number]) {
-	const paths: string[][] = [];
+let best = Infinity;
+const seen = [];
+const distances: Record<string, number> = {}
+const queue = new Heap<State>((a, b) => a.distance - b.distance);
 
-	DFS(startY, startX, [`${startY},${startX}`]);
+queue.init([{ y: sy, x: sx, direction: 1, distance: 0, path: [`${sy},${sx}`] }]);
 
-	return paths;
+while (!queue.isEmpty()) {
+    const { y, x, direction, distance, path } = queue.pop()!
 
-	function DFS(y: number, x: number, path: string[]) {
-		for (const [dy, dx] of [
-			[-1, 0],
-			[1, 0],
-			[0, -1],
-			[0, 1]
-		]) {
-			const nextY = y + dy;
-			const nextX = x + dx;
+    if (distance > distances[`${y},${x},${direction}`]) continue;
 
-			if (path.includes(`${nextY},${nextX}`) || input[nextY][nextX] === "#")
-				continue;
+    distances[`${y},${x},${direction}`] = distance
 
-			if (input[nextY][nextX] === "E") {
-				paths.push([...path, `${nextY},${nextX}`]);
-				return;
-			}
+    if (input[y][x] === "E" && distance <= best) {
+        seen.push(...path)
+        best = distance
+    }
 
-			DFS(nextY, nextX, [...path, `${nextY},${nextX}`]);
-		}
-	}
+    const [nextY, nextX] = [
+        [y + 1, x], // 0 - NORTH
+        [y, x + 1], // 1 - EAST
+        [y - 1, x], // 2 - SOUTH
+        [y, x - 1] //  3 - WEST
+    ][direction];
+
+    if (input[nextY][nextX] !== "#") {
+        queue.add({
+            y: nextY,
+            x: nextX,
+            distance: distance + 1,
+            direction,
+            path: [...path, `${nextY},${nextX}`]
+        });
+    }
+
+    queue.add({
+        y,
+        x,
+        distance: distance + 1000,
+        direction: (direction + 1) % 4,
+        path: [...path]
+    });
+    queue.add({
+        y,
+        x,
+        distance: distance + 1000,
+        direction: (direction + 3) % 4,
+        path: [...path]
+    });
 }
 
-function calculateCost(path: string[]): number {
-	const pathToCoords = path.map((node) => node.split(",").map(Number));
-
-	// +1 for every move
-	let cost = pathToCoords.length - 1;
-
-	// East
-	let dir: [number, number] = [0, 1];
-
-	for (let i = 1; i < pathToCoords.length; i++) {
-		const [y1, x1] = pathToCoords[i - 1];
-		const [y2, x2] = pathToCoords[i];
-
-		const newDir: [number, number] = [y2 - y1, x2 - x1];
-
-		cost += turnCost(newDir, dir);
-
-		dir = newDir;
-	}
-
-	return cost;
-}
-
-function turnCost(
-	[y2, x2]: [number, number],
-	[y1, x1]: [number, number]
-): number {
-	const yCost = Math.abs(y2 - y1);
-	const xCost = Math.abs(x2 - x1);
-
-	return Math.max(yCost, xCost) * 1000;
-}
-
-const costs = runDFS(start)
-	.map(calculateCost)
-	.toSorted((a, b) => a - b);
-
-console.log(costs[0]);
+console.log("Part 1:", best);
+console.log("Part 2:", new Set(seen).size);
