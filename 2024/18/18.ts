@@ -35,8 +35,8 @@ console.log("Part 1:", part1);
 function partTwo() {
     // 🔥🔥🔥 JANKY BINARY SEARCH WOOHOO 🔥🔥🔥
     let m = Math.floor(input.length / 2);
-    let step = Math.floor(m / 2)
-    while (step !== 0) {
+    let step = m / 2
+    while (step > 1) {
         const d = path(m);
 
         if (d === Infinity) {
@@ -45,7 +45,7 @@ function partTwo() {
             m += step
         }
 
-        step /= 2;
+        step = step / 2
     }
 
     m = Math.round(m)
