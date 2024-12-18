@@ -1,3 +1,4 @@
+import { bench, run } from "mitata";
 import { readInput } from "../utils";
 
 const input = await readInput();
@@ -31,8 +32,29 @@ function path(numObstacles: number) {
 const part1 = path(1024);
 console.log("Part 1:", part1);
 
-let m = 0;
-while (path(m) !== Infinity) {
-    m += 1
+function partTwo() {
+    // 🔥🔥🔥 JANKY BINARY SEARCH WOOHOO 🔥🔥🔥
+    let m = Math.floor(input.length / 2);
+    let step = Math.floor(m / 2)
+    while (step !== 0) {
+        const d = path(m);
+
+        if (d === Infinity) {
+            m -= step;
+        } else {
+            m += step
+        }
+
+        step /= 2;
+    }
+
+    m = Math.round(m)
+
+    return input[m - 1]
 }
-console.log(input[m - 1]);
+
+console.log("Part 2:", partTwo());
+
+bench("Part 1", () => path(1024))
+bench("Part 2", partTwo)
+await run();
