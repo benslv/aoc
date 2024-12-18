@@ -2,47 +2,37 @@ import { readInput } from "../utils";
 
 const input = await readInput();
 
-const obstacles = new Set(input)
-
-type Step = {
-    y: number;
-    x: number;
-    path: string[];
-}
-
+const tX = 70
 const tY = 70;
-const tX = 70;
 
-const todo: Step[] = [{ y: 0, x: 0, path: [] }];
-const paths: string[][] = [];
+function path(numObstacles: number) {
+    const seen = new Set<string>(input.slice(0, numObstacles))
+    const queue: [number, number, number][] = [[0, 0, 0]]
 
-while (todo.length > 0) {
-    const pos = todo.pop()!;
+    while (queue.length > 0) {
+        const [x, y, dist] = queue.shift()!;
 
-    if (pos.path.includes(`${pos.y},${pos.x}`)) {
-        console.log(`Already seen ${pos.y},${pos.x} in path.`);
-        continue;
-    };
-    if (obstacles.has(`${pos.x},${pos.y}`)) {
-        console.log(`Position ${pos.y},${pos.x} is blocked.`);
-        continue;
-    };
-    if (pos.y < 0 || pos.y > tY || pos.x < 0 || pos.x > tX) {
-        console.log(`Position ${pos.y},${pos.x} is OOB.`);
-        continue;
-    };
+        if (x === tX && y === tY) {
+            return dist;
+        }
 
-    if (pos.y === tY && pos.x === tX) {
-        paths.push([...pos.path, `${pos.y},${pos.x}`]);
+        for (const [nx, ny] of [[x + 1, y], [x, y + 1], [x - 1, y], [x, y - 1]]) {
+            if (ny < 0 || ny > tY || nx < 0 || nx > tX) continue;
+            if (seen.has(`${nx},${ny}`)) continue;
+
+            seen.add(`${nx},${ny}`);
+            queue.push([nx, ny, dist + 1])
+        }
     }
 
-    const { y, x } = pos;
-
-    for (const [ny, nx] of [[y + 1, x], [y, x + 1], [y - 1, x], [y, x - 1]]) {
-        console.log(`Addding`, ny, nx);
-
-        todo.unshift({ y: ny, x: nx, path: [...pos.path, `${y},${x}`] })
-    }
+    return Infinity
 }
 
-console.log(paths);
+const part1 = path(1024);
+console.log("Part 1:", part1);
+
+let m = 0;
+while (path(m) !== Infinity) {
+    m += 1
+}
+console.log(input[m - 1]);
