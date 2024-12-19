@@ -21,17 +21,15 @@ function check(pattern: string): number {
 	return poss;
 }
 
-function memoise<T extends unknown[], A>(fn: (...args: T) => A) {
+function memoise<A>(fn: (key: string) => A) {
 	const cache = new Map();
 
-	return (...args: T) => {
-		const key = args.join("_");
-
+	return (key: string) => {
 		if (cache.has(key)) {
 			return cache.get(key);
 		}
 
-		const result = fn(...args);
+		const result = fn(key);
 
 		cache.set(key, result);
 		return result;
