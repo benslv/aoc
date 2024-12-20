@@ -1,6 +1,5 @@
 import assert from "node:assert";
 import { readInput } from "../utils";
-import { permutations } from "itertools";
 
 const input = await readInput();
 
@@ -40,12 +39,12 @@ while (queue.length > 0) {
     }
 }
 
-const pointPairs = permutations(seen, 2)
+const pairs = Array.from(seen).flatMap((v, i, arr) => arr.slice(i + 1).map(w => [v, w]))
 
 let part1 = 0;
 let part2 = 0;
 
-for (const [a, b] of pointPairs) {
+for (const [a, b] of pairs) {
     const d = manhattan(a, b)
     if (d === 2 && distances[b] - distances[a] - d >= 100) {
         part1 += 1

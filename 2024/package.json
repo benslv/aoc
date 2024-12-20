@@ -12,7 +12,6 @@
 	"dependencies": {
 		"@types/node": "^22.10.1",
 		"heap-js": "^2.5.0",
-		"itertools": "^2.3.2",
 		"mitata": "^1.0.20",
 		"ml-matrix": "^6.12.0"
 	},

@@ -14,9 +14,6 @@ importers:
       heap-js:
         specifier: ^2.5.0
         version: 2.5.0
-      itertools:
-        specifier: ^2.3.2
-        version: 2.3.2
       mitata:
         specifier: ^1.0.20
         version: 1.0.20
@@ -42,9 +39,6 @@ packages:
 
   is-any-array@2.0.1:
     resolution: {integrity: sha512-UtilS7hLRu++wb/WBAw9bNuP1Eg04Ivn1vERJck8zJthEvXCBEBpGR/33u/xLKWEQf95803oalHrVDptcAvFdQ==}
-
-  itertools@2.3.2:
-    resolution: {integrity: sha512-urRg24zOOKt4qQHm3gzQLK5Mima/kMSP3DUfcVw05W3veUHxxqHPTEW08aKY9GIZm9CKvnULVqXdjZWNYalJHQ==}
 
   mitata@1.0.20:
     resolution: {integrity: sha512-oHWYGX5bi4wGT/1zrhiZAEzqTV14Vq6/PUTW8WK0b3YHBBQcZz2QFm+InHhjnD0I7B6CMtwdGt2K0938r7YTdQ==}
@@ -75,8 +69,6 @@ snapshots:
   heap-js@2.5.0: {}
 
   is-any-array@2.0.1: {}
-
-  itertools@2.3.2: {}
 
   mitata@1.0.20: {}
 
