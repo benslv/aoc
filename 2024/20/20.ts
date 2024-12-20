@@ -13,9 +13,6 @@ const WIDTH = input[0].length;
 const startIndex = input.join("").match(/S/)?.index;
 assert(startIndex, "Couldn't find start position.");
 
-const endIndex = input.join("").match(/E/)?.index;
-assert(endIndex, "Couldn't find end position.");
-
 function getPositionFromIndex(idx: number): [number, number] {
     const y = Math.floor(idx / WIDTH);
     const x = idx % WIDTH;
@@ -30,7 +27,6 @@ const queue = [[sy, sx, 0]]
 
 while (queue.length > 0) {
     const [y, x, dist] = queue.shift()!
-
 
     if (seen.has(`${y},${x}`)) continue;
     seen.add(`${y},${x}`);
