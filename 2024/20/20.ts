@@ -63,3 +63,21 @@ function manhattan(a: string, b: string) {
 
     return Math.abs(by - ay) + Math.abs(bx - ax);
 }
+// !!! WARNING !!!
+//   Very Slow :)
+/* bench("Part 1 & 2", () => {
+    let part1 = 0;
+    let part2 = 0;
+
+    for (const [a, b] of pairs) {
+        const d = manhattan(a, b)
+        if (d === 2 && distances[b] - distances[a] - d >= 100) {
+            part1 += 1
+        }
+        if (d <= 20 && distances[b] - distances[a] - d >= 100) {
+            part2 += 1
+        }
+    }
+})
+
+await run(); */
