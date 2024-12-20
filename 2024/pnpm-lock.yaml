@@ -14,14 +14,24 @@ importers:
       heap-js:
         specifier: ^2.5.0
         version: 2.5.0
+      itertools:
+        specifier: ^2.3.2
+        version: 2.3.2
       mitata:
         specifier: ^1.0.20
         version: 1.0.20
       ml-matrix:
         specifier: ^6.12.0
         version: 6.12.0
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.17.13
+        version: 4.17.13
 
 packages:
+
+  '@types/lodash@4.17.13':
+    resolution: {integrity: sha512-lfx+dftrEZcdBPczf9d0Qv0x+j/rfNCMuC6OcfXmO8gkfeNAY88PgKUbvG56whcN23gc27yenwF6oJZXGFpYxg==}
 
   '@types/node@22.10.1':
     resolution: {integrity: sha512-qKgsUwfHZV2WCWLAnVP1JqnpE6Im6h3Y0+fYgMTasNQ7V++CBX5OT1as0g0f+OyubbFqhf6XVNIsmN4IIhEgGQ==}
@@ -32,6 +42,9 @@ packages:
 
   is-any-array@2.0.1:
     resolution: {integrity: sha512-UtilS7hLRu++wb/WBAw9bNuP1Eg04Ivn1vERJck8zJthEvXCBEBpGR/33u/xLKWEQf95803oalHrVDptcAvFdQ==}
+
+  itertools@2.3.2:
+    resolution: {integrity: sha512-urRg24zOOKt4qQHm3gzQLK5Mima/kMSP3DUfcVw05W3veUHxxqHPTEW08aKY9GIZm9CKvnULVqXdjZWNYalJHQ==}
 
   mitata@1.0.20:
     resolution: {integrity: sha512-oHWYGX5bi4wGT/1zrhiZAEzqTV14Vq6/PUTW8WK0b3YHBBQcZz2QFm+InHhjnD0I7B6CMtwdGt2K0938r7YTdQ==}
@@ -53,6 +66,8 @@ packages:
 
 snapshots:
 
+  '@types/lodash@4.17.13': {}
+
   '@types/node@22.10.1':
     dependencies:
       undici-types: 6.20.0
@@ -60,6 +75,8 @@ snapshots:
   heap-js@2.5.0: {}
 
   is-any-array@2.0.1: {}
+
+  itertools@2.3.2: {}
 
   mitata@1.0.20: {}
 
