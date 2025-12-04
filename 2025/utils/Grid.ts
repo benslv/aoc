@@ -45,6 +45,10 @@ export class Grid {
         return this.points.get(`${y},${x}`)
     }
 
+    set(y: number, x: number, val: string) {
+        this.points.set(`${y},${x}`, val)
+    }
+
     find(val: string): [number, number] | undefined {
         const key = this.points.keys().find(key => this.points.get(key) === val)
 
