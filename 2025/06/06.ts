@@ -1,5 +1,4 @@
 import { bench, run } from "mitata";
-import assert from "node:assert";
 import { readInput } from "../utils";
 
 const input = await readInput();
@@ -26,9 +25,8 @@ function partTwo() {
 	const numCols = input[0].length;
 	const numRows = input.length;
 
-	const transposedInput = [];
-
-	let partTwo = 0;
+	const transposedInput: number[][] = [[]];
+	const ops: string[] = [];
 
 	for (let i = 0; i < numCols; i++) {
 		const items = [];
@@ -39,47 +37,31 @@ function partTwo() {
 
 		const [op, ...nums] = items;
 
-		const finalNum = nums.toReversed().join("").trim();
+		const num = nums.toReversed().join("").trim();
 
-		transposedInput.push([op, Number(finalNum) || undefined] as const);
-	}
-
-	let currentOp;
-	let nums = [];
-
-	for (const row of transposedInput) {
-		const [op, num] = row;
-
-		if (num === undefined) {
-			assert(currentOp);
-			const func = funcMap[currentOp];
-
-			assert(func);
-			partTwo += nums.reduce(func);
-
-			nums = [];
-
+		if (num.length === 0) {
+			transposedInput.push([]);
 			continue;
 		}
 
-		if (op !== " ") currentOp = op;
-		nums.push(num);
+		if (op !== " ") {
+			ops.push(op);
+		}
+
+		transposedInput.at(-1)!.push(Number(num));
 	}
 
-	assert(currentOp);
-	const func = funcMap[currentOp];
-
-	assert(func);
-	partTwo += nums.reduce(func);
-
-	return partTwo;
+	return transposedInput.reduce(
+		(acc, nums, i) => acc + nums.reduce(funcMap[ops[i]]),
+		0
+	);
 }
 
 console.log("Part 1:", partOne());
-// console.log("Part 2:", partTwo());
+console.log("Part 2:", partTwo());
 
 bench("Part 1", partOne);
-// bench("Part 2", partTwo);
+bench("Part 2", partTwo);
 run();
 
 function transpose(matrix: number[][]): number[][] {
