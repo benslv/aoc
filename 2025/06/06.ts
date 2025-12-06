@@ -13,25 +13,13 @@ function partOne() {
 	const rows = input
 		.slice(0, -1)
 		.map((row) => row.trim().split(/\s+/).map(Number));
+
 	const ops = input.at(-1)!.trim().split(/\s+/);
 
-	let partOne = 0;
-
-	for (const [i, op] of ops.entries()) {
-		const func = funcMap[op];
-
-		assert(func);
-
-		let answer = rows[0][i];
-
-		for (const row of rows.slice(1)) {
-			answer = func(answer, row[i]);
-		}
-
-		partOne += answer;
-	}
-
-	return partOne;
+	return transpose(rows).reduce(
+		(acc, row, i) => acc + row.reduce(funcMap[ops[i]]),
+		0
+	);
 }
 
 function partTwo() {
@@ -88,8 +76,24 @@ function partTwo() {
 }
 
 console.log("Part 1:", partOne());
-console.log("Part 2:", partTwo());
+// console.log("Part 2:", partTwo());
 
 bench("Part 1", partOne);
-bench("Part 2", partTwo);
+// bench("Part 2", partTwo);
 run();
+
+function transpose(matrix: number[][]): number[][] {
+	const rows = matrix.length;
+
+	const cols = matrix[0].length;
+	const grid: number[][] = [];
+
+	for (let j = 0; j < cols; j++) {
+		grid.push([]);
+		for (let i = 0; i < rows; i++) {
+			grid[j].push(matrix[i][j]);
+		}
+	}
+
+	return grid;
+}
