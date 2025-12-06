@@ -4,6 +4,11 @@ import { readInput } from "../utils";
 
 const input = await readInput();
 
+const funcMap: Record<string, (a: number, b: number) => number> = {
+	"+": (a: number, b: number) => a + b,
+	"*": (a: number, b: number) => a * b,
+};
+
 function partOne() {
 	const rows = input
 		.slice(0, -1)
@@ -13,10 +18,7 @@ function partOne() {
 	let partOne = 0;
 
 	for (const [i, op] of ops.entries()) {
-		const func = {
-			"+": (a: number, b: number) => a + b,
-			"*": (a: number, b: number) => a * b,
-		}[op];
+		const func = funcMap[op];
 
 		assert(func);
 
@@ -62,10 +64,7 @@ function partTwo() {
 
 		if (num === undefined) {
 			assert(currentOp);
-			const func = {
-				"+": (a: number, b: number) => a + b,
-				"*": (a: number, b: number) => a * b,
-			}[currentOp];
+			const func = funcMap[currentOp];
 
 			assert(func);
 			partTwo += nums.reduce(func);
@@ -80,10 +79,7 @@ function partTwo() {
 	}
 
 	assert(currentOp);
-	const func = {
-		"+": (a: number, b: number) => a + b,
-		"*": (a: number, b: number) => a * b,
-	}[currentOp];
+	const func = funcMap[currentOp];
 
 	assert(func);
 	partTwo += nums.reduce(func);
