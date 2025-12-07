@@ -1,51 +1,57 @@
+import { bench, run } from "mitata";
 import { readInput } from "../utils";
 
 const input = await readInput();
 
-const grid: (string | number)[][] = input.map((row) => row.split(""));
+function partOne(input: string[]) {
+	const grid: (string | number)[][] = input.map((row) => row.split(""));
+	const startX = grid[0].indexOf("S");
 
-const startX = grid[0].indexOf("S");
+	grid[1][startX] = "|";
 
-grid[1][startX] = "|";
+	let partOne = 0;
 
-// For each | in line
-// If ^ is below |
-//  Put | on line below at x-1, x+1
-// Else put | on line below at x
+	for (const [j, row] of grid.slice(0, -1).entries()) {
+		for (const [i, char] of row.entries()) {
+			if (char !== "|") continue;
 
-let partOne = 0;
+			if (grid[j + 1][i] === "^") {
+				grid[j + 1][i - 1] = "|";
+				grid[j + 1][i + 1] = "|";
 
-for (const [j, row] of grid.slice(0, -1).entries()) {
-	for (const [i, char] of row.entries()) {
-		if (char !== "|") continue;
-
-		if (grid[j + 1][i] === "^") {
-			grid[j + 1][i - 1] = "|";
-			grid[j + 1][i + 1] = "|";
-
-			partOne += 1;
-		} else {
-			grid[j + 1][i] = "|";
+				partOne += 1;
+			} else {
+				grid[j + 1][i] = "|";
+			}
 		}
 	}
+
+	grid[1][startX] = 1;
+
+	return [partOne, grid] as const;
 }
 
-grid[1][startX] = 1;
+function partTwo(grid: (string | number)[][]) {
+	for (const [j, row] of grid.entries()) {
+		for (const [i, char] of row.entries()) {
+			if (char !== "|") continue;
 
-for (const [j, row] of grid.entries()) {
-	for (const [i, char] of row.entries()) {
-		if (char !== "|") continue;
+			grid[j][i] = getPointValue(grid, j - 1, i);
 
-		grid[j][i] = getPointValue(grid, j - 1, i);
+			if (grid[j][i - 1] === "^") {
+				grid[j][i] += getPointValue(grid, j - 1, i - 1);
+			}
 
-		if (grid[j][i - 1] === "^") {
-			grid[j][i] += getPointValue(grid, j - 1, i - 1);
-		}
-
-		if (grid[j][i + 1] === "^") {
-			grid[j][i] += getPointValue(grid, j - 1, i + 1);
+			if (grid[j][i + 1] === "^") {
+				grid[j][i] += getPointValue(grid, j - 1, i + 1);
+			}
 		}
 	}
+
+	return grid
+		.at(-1)
+		?.filter((n) => typeof n === "number")
+		.reduce((acc, val) => acc + val);
 }
 
 function getPointValue(
@@ -56,9 +62,14 @@ function getPointValue(
 	return typeof grid[y][x] === "string" ? 0 : grid[y][x];
 }
 
-console.log(
-	grid
-		.at(-1)
-		?.filter((n) => typeof n === "number")
-		.reduce((acc, val) => acc + val)
-);
+const [p1, grid] = partOne(input);
+console.log("Part 1:", p1);
+console.log("Part 2:", partTwo(grid));
+
+bench("Part 1", () => partOne(input));
+bench("Part 2", function* () {
+	const [__, grid] = partOne(input);
+
+	yield () => partTwo(grid);
+});
+run();
