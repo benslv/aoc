@@ -2,9 +2,11 @@ import { bench, run } from "mitata";
 import { readInput } from "../utils";
 import { mod } from "../utils/mod";
 
-const ROTATON_REGEX = /([LR])(\d+)/g
+const ROTATON_REGEX = /([LR])(\d+)/g;
 
-const input = await readInput().then(data => Array.from(data.join("\n").matchAll(ROTATON_REGEX)));
+const input = await readInput().then((data) =>
+	Array.from(data.join("\n").matchAll(ROTATON_REGEX))
+);
 
 function partOne() {
 	let rot = 50;
@@ -13,18 +15,18 @@ function partOne() {
 	for (const [, direction, amount] of input) {
 		switch (direction) {
 			case "L": {
-				rot = mod((rot - Number(amount)), 100);
+				rot = mod(rot - Number(amount), 100);
 				break;
 			}
 			case "R": {
-				rot = mod((rot + Number(amount)), 100)
+				rot = mod(rot + Number(amount), 100);
 			}
 		}
 
 		if (rot === 0) answer += 1;
 	}
 
-	return answer
+	return answer;
 }
 
 function partTwo() {
@@ -52,12 +54,12 @@ function partTwo() {
 		}
 	}
 
-	return answer
+	return answer;
 }
 
 console.log("Part 1:", partOne());
 console.log("Part 2:", partTwo());
 
-bench("Part 1:", partOne)
-bench("Part 2:", partTwo)
+bench("Part 1:", partOne);
+bench("Part 2:", partTwo);
 run();
