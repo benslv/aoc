@@ -11,6 +11,7 @@
 	"description": "",
 	"dependencies": {
 		"@types/node": "^22.10.1",
-		"mitata": "^1.0.20"
+		"mitata": "^1.0.20",
+		"yalps": "^0.6.3"
 	}
 }
