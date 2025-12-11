@@ -1,5 +1,6 @@
 import { bench, run } from "mitata";
 import { readInput } from "../utils";
+import { memoize } from "../utils/memoize";
 
 const input = await readInput();
 
@@ -36,40 +37,32 @@ function partOne() {
 }
 
 function partTwo(): number {
-	const cache = new Map<string, number>();
+	const countPaths = memoize(
+		(here: string, dac: boolean, fft: boolean): number => {
+			let dacVisited = dac;
+			let fftVisited = fft;
+
+			switch (here) {
+				case "out":
+					return Number(dac && fft);
+				case "dac":
+					dacVisited = true;
+					break;
+				case "fft":
+					fftVisited = true;
+					break;
+			}
+
+			const result = Array.from(nodes.get(here) ?? []).reduce(
+				(total, v) => total + countPaths(v, dacVisited, fftVisited),
+				0
+			);
+
+			return result;
+		}
+	);
 
 	return countPaths("svr", false, false);
-
-	function countPaths(here: string, dac: boolean, fft: boolean): number {
-		const cacheKey = `${here}-${dac}-${fft}`;
-		const cachedValue = cache.get(cacheKey);
-		if (cachedValue !== undefined) return cachedValue;
-
-		let dacVisited = dac;
-		let fftVisited = fft;
-
-		switch (here) {
-			case "out":
-				const result = Number(dac && fft);
-				cache.set(cacheKey, result);
-				return result; // return 1 if both visited, otherwise 0
-			case "dac":
-				dacVisited = true;
-				break;
-			case "fft":
-				fftVisited = true;
-				break;
-		}
-
-		const result2 = Array.from(nodes.get(here) ?? []).reduce(
-			(total, v) => total + countPaths(v, dacVisited, fftVisited),
-			0
-		);
-
-		cache.set(`${here}-${dac}-${fft}`, result2);
-
-		return result2;
-	}
 }
 
 console.log("Part 1:", partOne());
