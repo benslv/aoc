@@ -4,7 +4,6 @@ import { Grid } from "../utils/Grid";
 
 const input = await readInput();
 
-
 function partOne() {
 	const grid = new Grid(input);
 
@@ -13,7 +12,7 @@ function partOne() {
 	for (const [pos, val] of grid.points.entries()) {
 		if (val !== "@") continue;
 
-		const [y, x] = pos.split(",").map(Number)
+		const [y, x] = pos.split(",").map(Number);
 
 		let nearbyRolls = 0;
 
@@ -21,11 +20,8 @@ function partOne() {
 			for (const dx of [-1, 0, 1]) {
 				if (dy === 0 && dx === 0) continue;
 
-				switch (grid.get(y + dy, x + dx)) {
-					case undefined: break;
-					case "@": {
-						nearbyRolls += 1;
-					}
+				if (grid.get(y + dy, x + dx) === "@") {
+					nearbyRolls += 1;
 				}
 			}
 		}
@@ -49,14 +45,14 @@ function partTwo() {
 			answer += 1;
 
 			const [y, x] = pos.split(",").map(Number);
-			grid.set(y, x, ".")
+			grid.set(y, x, ".");
 		}
-		rollsToRemove = []
+		rollsToRemove = [];
 
 		for (const [pos, val] of grid.points.entries()) {
 			if (val !== "@") continue;
 
-			const [y, x] = pos.split(",").map(Number)
+			const [y, x] = pos.split(",").map(Number);
 
 			let nearbyRolls = 0;
 
@@ -64,29 +60,24 @@ function partTwo() {
 				for (const dx of [-1, 0, 1]) {
 					if (dy === 0 && dx === 0) continue;
 
-					switch (grid.get(y + dy, x + dx)) {
-						case undefined: break;
-						case "@": {
-
-							nearbyRolls += 1;
-						}
+					if (grid.get(y + dy, x + dx) === "@") {
+						nearbyRolls += 1;
 					}
 				}
 			}
 
 			if (nearbyRolls < 4) {
-				rollsToRemove.push(`${y},${x}`)
+				rollsToRemove.push(`${y},${x}`);
 			}
 		}
-
-	} while (rollsToRemove.length > 0)
+	} while (rollsToRemove.length > 0);
 
 	return answer;
 }
 
-console.log("Part 1:", partOne())
+console.log("Part 1:", partOne());
 
-console.log("Part 2:", partTwo())
+console.log("Part 2:", partTwo());
 
 bench("Part 1", partOne);
 bench("Part 2", partTwo);
